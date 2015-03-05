@@ -23,6 +23,9 @@ import (
 	gorhandlers "github.com/gorilla/handlers"
 	"github.com/yvasiyarov/gorelic"
 	"golang.org/x/net/context"
+
+	// FIXME: change to absolute path once v2 registry merged into openshift origin repo.
+	_ "../../registry/auth/openshift"
 )
 
 var showVersion bool
