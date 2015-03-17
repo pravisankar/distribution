@@ -2,6 +2,7 @@ package distribution
 
 import (
 	"io"
+	"net/http"
 	"time"
 
 	"github.com/docker/distribution/digest"
@@ -106,6 +107,11 @@ type Layer interface {
 
 	// CreatedAt returns the time this layer was created.
 	CreatedAt() time.Time
+
+	// Handler returns an HTTP handler which serves the layer content, whether
+	// by providing a redirect directly to the content, or by serving the
+	// content itself.
+	Handler(r *http.Request) (http.Handler, error)
 }
 
 // LayerUpload provides a handle for working with in-progress uploads.

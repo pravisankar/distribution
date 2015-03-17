@@ -1,0 +1,18 @@
+version: 0.1
+loglevel: debug
+storage:
+    filesystem:
+        rootdirectory: /tmp/registry-dev
+auth:
+    openshift:
+        addr: https://10.245.2.2:8443/osapi/v1beta1
+        apiVersion: v1beta1
+        tlsConfig:
+            caPath: /home/ravi/openshift/origin/openshift.local.certificates/ca/root.crt
+            certPath: /home/ravi/openshift/origin/openshift.local.certificates/ca/cert.crt
+            keyPath: /home/ravi/openshift/origin/openshift.local.certificates/ca/key.key
+http:
+    addr: :5000
+    secret: asecretforlocaldevelopment
+    debug:
+        addr: localhost:5001

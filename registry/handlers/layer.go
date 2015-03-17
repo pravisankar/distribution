@@ -62,17 +62,13 @@ func (lh *layerHandler) GetLayer(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	defer layer.Close()
 
-	w.Header().Set("Docker-Content-Digest", lh.Digest.String())
-
-	if lh.layerHandler != nil {
-		handler, _ := lh.layerHandler.Resolve(layer)
-		if handler != nil {
-			handler.ServeHTTP(w, r)
-			return
-		}
+	handler, err := layer.Handler(r)
+	if err != nil {
+		ctxu.GetLogger(lh).Debugf("unexpected error getting layer HTTP handler: %s", err)
+		lh.Errors.Push(v2.ErrorCodeUnknown, err)
+		return
 	}
 
-	http.ServeContent(w, r, layer.Digest().String(), layer.CreatedAt(), layer)
+	handler.ServeHTTP(w, r)
 }
